@@ -30,27 +30,44 @@ class MasterMind
    end
 
    def guess_comm
-       puts "Put six numbers"
-       iteration = 0
-        6.times do
-            @guess = gets.to_i
-            @arru.push(@guess)
-            @exists_in_code.push(@guess) if $solution.include?(@guess)
-            @good_position +=1 if $solution[iteration] == @guess
-            iteration += 1
+        if @set_break == false
+           puts "Put six numbers"
+           iteration = 0
+            6.times do
+                @guess = gets.to_i
+                @arru.push(@guess)
+                @exists_in_code.push(@guess) if $solution.include?(@guess)
+                @good_position +=1 if $solution[iteration] == @guess
+                iteration += 1
+            end
+        else
+           puts "I will now make guess..."
+           puts "Press Enter"
+           gets
+           iteration = 0
+            6.times do
+                @guess = rand(6) + 1
+                @arru.push(@guess)
+            end
+            puts "That's what I came up with"
+            p @arru
+            gets
+
         end
    end
   
    def appear_num
-       count_in_code = @exists_in_code.uniq.size
-       @exists_in_code.uniq.each do |z|
-          counter_answer = @exists_in_code.select { |x| x == z }.size
-          counter_code = $solution.select { |y| y == z }.size 
-          count_in_code += counter_answer - 1 if 1 < counter_code && counter_answer <= counter_code
+       if @set_break == false
+           count_in_code = @exists_in_code.uniq.size
+           @exists_in_code.uniq.each do |z|
+              counter_answer = @exists_in_code.select { |x| x == z }.size
+              counter_code = $solution.select { |y| y == z }.size 
+              count_in_code += counter_answer - 1 if 1 < counter_code && counter_answer <= counter_code
+            end
+            string_output = "You have #{count_in_code - @good_position} good guesses and #{@good_position} good guesses in good position"
+            @exists_in_code = []
+            @good_position = 0
         end
-        string_output = "You have #{count_in_code - @good_position} good guesses and #{@good_position} good guesses in good position"
-        @exists_in_code = []
-        @good_position = 0
         @arru = []
         return string_output
    end
@@ -66,15 +83,19 @@ class MasterMind
            end
        end
        if correctness_iterator == 6
-            p "Grats buddy, you won!"
-            return exit
+            if @set_break == false
+                p "Grats buddy, you won!"
+                return exit
+            else
+                p "I got it! I knew I would..."
+                return exit
+            end
        end
    end
    
    def solution
       $solution 
    end
-
 end
 
 player = MasterMind.new
