@@ -67,7 +67,7 @@ class MasterMind
             string_output = "You have #{count_in_code - @good_position} good guesses and #{@good_position} good guesses in good position"
             @exists_in_code = []
             @good_position = 0
-        end
+       end
         @arru = []
         return string_output
    end
