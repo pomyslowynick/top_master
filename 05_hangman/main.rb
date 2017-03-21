@@ -14,12 +14,12 @@ class Hangman
     @@sol_array = @@solution.split("")
     @@sol_rep = []
     @@solution.length.times {@@sol_rep << "_"}
-    @file_num = 1
+    @@file_num = 1
     @@turn = 0
     def Hangman.save_game
-        File.open("save#{@file_num}.json","w") do |f|
-        f.write({"user_input" => @@user_input, "solution" => @@solution, "sol_array" => @@sol_array, "sol_rep" => @@sol_rep}.to_json)
-        @file_num += 1
+        File.open("save#{@@file_num}.json","w") do |f|
+        f.write({"user_input" => @@user_input, "solution" => @@solution, "sol_array" => @@sol_array, "sol_rep" => @@sol_rep, "turn" => @@turn}.to_json)
+        @@file_num += 1
         end 
     end
     
@@ -40,13 +40,21 @@ class Hangman
                 puts "Game saved"
                 redo
             elsif answer == '3'
-                
+                puts "Choose save number"
+                save_input = gets.chomp
+                file = File.read("save#{save_input}.json")
+                json_parse = JSON.parse(file)
+                @@user_input = json_parse["user_input"]
+                @@solution = json_parse["solution"]
+                @@sol_rep = json_parse["sol_rep"]
+                @@sol_array = json_parse["sol_array"]
+                @@turn = json_parse["turn"]
             elsif @@user_input.include?(answer) || @@sol_rep.include?(answer)
                 puts "You already used that letter, try again"
                 redo
             end
             @@sol_array.each_with_index {|z, y| z == answer && @@sol_rep[y] = z }
-            unless ["1","2"].include?(answer) || @@sol_rep.include?(answer)
+            unless ["1","2","3"].include?(answer) || @@sol_rep.include?(answer)
                 @@user_input << answer
                 @@turn += 1
             end
