@@ -1,9 +1,8 @@
 require 'pry'
 
 def merge_sort(arr)
-    if arr.length == 1
-        return arr
-    end
+    return arr if arr.length == 1
+    
     mid = arr.length/2 - 1
     left_side = arr[0..mid]
     right_side = arr[mid + 1..-1]
@@ -36,3 +35,13 @@ def merge_arrays(left, right)
 end
 
 p merge_sort([1,2,3,2,32,4,5,535,34,32,421,43,24,235,235,342,54,345,235,2,42,5,65,22,31,23])
+
+def merge(b, c)
+  merge_ary = []
+
+  while !b.empty? && !c.empty?
+    merge_ary << (b.first < c.first ? b.shift : c.shift)
+  end
+
+  merge_ary + (b.empty? ? c : b)
+end
