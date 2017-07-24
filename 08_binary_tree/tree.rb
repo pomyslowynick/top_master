@@ -28,10 +28,10 @@ end
 
 def build_tree(arr, sort) 
     i = 1
-    arr_sorted = arr.sort
-    arr_len = arr_sorted.length/2
-    parent_node = Node.new(arr_sorted[arr_len])
-    arr_sorted.delete_at(arr_len)
+    arr_sorted = arr.sort 
+    arr_len = arr.length/2
+    parent_node = Node.new(arr[arr_len])
+    arr.delete_at(arr_len) 
     if sort
         while arr_sorted.length > i
             place_holder = Node.new(arr_sorted[-i])
@@ -45,7 +45,23 @@ def build_tree(arr, sort)
             i += 1
         end
     end
-    p parent_node.left_child.left_child.left_child.left_child.value
+    return parent_node.right_child.left_child.left_child.left_child.left_child.left_child.right_child.value
 end
 
-build_tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324], false)
+my_1st_tree = build_tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324], false)
+p my_1st_tree
+
+def breadth_first_search(target,bi_search_tree)
+    breadth_que = []
+    targ_status = nil
+    
+    if bi_search_tree.value == target
+      return bi_search_tree
+    else
+      
+    end
+    
+    return targ_status
+end
+
+#breadth_first_search(67, my_1st_tree)
